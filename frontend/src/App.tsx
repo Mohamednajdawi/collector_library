@@ -11,7 +11,10 @@ function App() {
             try {
                 // In development, might typically point to localhost:8080
                 // For now, let's assume the user will proxy or run on parallel ports
-                const response = await fetch(import.meta.env.VITE_API_URL || 'http://localhost:8080/api/amiibos');
+                // Use Runtime Config (injected at startup by Docker) or fallback to build-time/local
+                // @ts-ignore
+                const apiUrl = window.runtimeEnv?.API_URL || import.meta.env.VITE_API_URL || 'http://localhost:8080/api/amiibos';
+                const response = await fetch(apiUrl);
                 if (!response.ok) {
                     throw new Error('Failed to fetch');
                 }
