@@ -36,9 +36,9 @@ func main() {
 	// Read JSON data
 	// Check multiple possible locations
 	paths := []string{
-		filepath.Join("..", "data", "amiibo_raw.json"),       // Correct relative path from backend root
-		filepath.Join("data", "amiibo_raw.json"),             // If data was copied to backend
-		filepath.Join("..", "..", "data", "amiibo_raw.json"), // If running from cmd/seeder
+		filepath.Join("..", "data", "amiibo_local.json"),       // Correct relative path from backend root
+		filepath.Join("data", "amiibo_local.json"),             // If data was copied to backend
+		filepath.Join("..", "..", "data", "amiibo_local.json"), // If running from cmd/seeder
 	}
 
 	var file []byte
