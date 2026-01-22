@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"log"
-	"net"
 	"net/http"
 	"os"
 
@@ -29,17 +28,7 @@ func main() {
 	}
 
 	// Connect to Database
-	dbConfig, err := pgxpool.ParseConfig(dbURL)
-	if err != nil {
-		log.Fatalf("Unable to parse database URL: %v\n", err)
-	}
-
-	// Force IPv4 because Railway/Docker + Supabase IPv6 can be flaky
-	dbConfig.ConnConfig.DialFunc = func(ctx context.Context, network, addr string) (net.Conn, error) {
-		return (&net.Dialer{}).DialContext(ctx, "tcp4", addr)
-	}
-
-	dbPool, err := pgxpool.NewWithConfig(context.Background(), dbConfig)
+	dbPool, err := pgxpool.New(context.Background(), dbURL)
 	if err != nil {
 		log.Fatalf("Unable to create database pool: %v\n", err)
 	}

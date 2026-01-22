@@ -34,14 +34,25 @@ func main() {
 	repo := repository.NewPostgresRepository(dbPool)
 
 	// Read JSON data
-	dataPath := filepath.Join("..", "..", "data", "amiibo_raw.json")
-	file, err := os.ReadFile(dataPath)
-	if err != nil {
-		// Try current directory if relative fails
-		file, err = os.ReadFile("data/amiibo_raw.json")
-		if err != nil {
-			log.Fatalf("Failed to read amiibo data: %v", err)
+	// Check multiple possible locations
+	paths := []string{
+		filepath.Join("..", "data", "amiibo_raw.json"),       // Correct relative path from backend root
+		filepath.Join("data", "amiibo_raw.json"),             // If data was copied to backend
+		filepath.Join("..", "..", "data", "amiibo_raw.json"), // If running from cmd/seeder
+	}
+
+	var file []byte
+	var loadErr error
+	for _, p := range paths {
+		file, loadErr = os.ReadFile(p)
+		if loadErr == nil {
+			fmt.Printf("Loaded data from %s\n", p)
+			break
 		}
+	}
+
+	if loadErr != nil {
+		log.Fatalf("Failed to read amiibo data from any path: %v", loadErr)
 	}
 
 	var amiibos []domain.Amiibo

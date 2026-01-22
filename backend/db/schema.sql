@@ -1,5 +1,5 @@
 -- Create the table for storing Amiibo items
-create table public.amiibos (
+create table if not exists public.amiibos (
   id uuid not null default gen_random_uuid (),
   name text not null,
   image_url text null,

@@ -46,7 +46,7 @@ func (r *PostgresRepository) CreateBatch(ctx context.Context, amiibos []domain.A
 	}
 	defer tx.Rollback(ctx)
 
-	query := `INSERT INTO amiibos (name, image_url, series, release_date) VALUES ($1, $2, $3, $4)`
+	query := `INSERT INTO public.amiibos (name, image_url, series, release_date) VALUES ($1, $2, $3, $4)`
 
 	for _, a := range amiibos {
 		// Series defaults to 'Super Smash Bros' if empty, but we can set it explicitly
