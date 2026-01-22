@@ -6,23 +6,14 @@ interface AmiiboCardProps {
 }
 
 const AmiiboCard: React.FC<AmiiboCardProps> = ({ amiibo }) => {
-    // Helper to fix Wikia/Fandom hotlinking issues by requesting a specific thumbnail version
-    const getImageUrl = (url: string) => {
-        if (url.includes('static.wikia.nocookie.net') && !url.includes('/revision/latest')) {
-            return `${url}/revision/latest/scale-to-width-down/350?path-prefix=en`;
-        }
-        return url;
-    };
-
     return (
         <div className="amiibo-card">
             <div className="image-container">
                 <img
-                    src={getImageUrl(amiibo.image_url)}
+                    src={amiibo.image_url}
                     alt={amiibo.name}
                     className="amiibo-image"
                     loading="lazy"
-                    referrerPolicy="no-referrer"
                 />
             </div>
             <div className="card-content">
