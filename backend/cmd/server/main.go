@@ -30,9 +30,13 @@ func main() {
 	// Connect to Database
 	dbPool, err := pgxpool.New(context.Background(), dbURL)
 	if err != nil {
-		log.Fatalf("Unable to connect to database: %v\n", err)
+		log.Fatalf("Unable to create database pool: %v\n", err)
 	}
 	defer dbPool.Close()
+
+	if err := dbPool.Ping(context.Background()); err != nil {
+		log.Fatalf("Unable to connect to database (Ping failed): %v\n", err)
+	}
 
 	// Initialize Dependencies
 	repo := repository.NewPostgresRepository(dbPool)

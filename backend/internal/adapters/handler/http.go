@@ -2,6 +2,7 @@ package handler
 
 import (
 	"encoding/json"
+	"log"
 	"net/http"
 
 	"collector-library/internal/core/services"
@@ -20,6 +21,7 @@ func NewHTTPHandler(svc *services.AmiiboService) *HTTPHandler {
 func (h *HTTPHandler) ListAmiibos(w http.ResponseWriter, r *http.Request) {
 	amiibos, err := h.svc.ListAmiibos(r.Context())
 	if err != nil {
+		log.Printf("Error in ListAmiibos: %v", err)
 		http.Error(w, "Failed to fetch amiibos", http.StatusInternalServerError)
 		return
 	}
