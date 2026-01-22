@@ -22,6 +22,7 @@ const AmiiboCard: React.FC<AmiiboCardProps> = ({ amiibo }) => {
                     alt={amiibo.name}
                     className="amiibo-image"
                     loading="lazy"
+                    referrerPolicy="no-referrer"
                 />
             </div>
             <div className="card-content">
